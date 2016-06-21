@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Weather Map</title>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css"
+      href="https://fonts.googleapis.com/css?family=Ubuntu">
+	</head>
+	<body>
+
+	<style>
+
+	.city{
+		font-weight: bold;
+		text-align: center;
+		color: white;
+
+	}
+
+	
+	.col-xs-4{
+		text-align: center;
+		background-color: lightblue;
+		border: 1px solid black;
+		font-family: Ubuntu;
+
+	}
+	#yourChosenCity{
+		font-size: 2em;
+		text-align: center;
+		font-weight: bold;
+		color: white;
+	}
+
+	body{
+		background: url("http://www.siwallpaperhd.com/wp-content/uploads/2015/06/awesome_weather_wallpaper_hd_6.jpg");
+	}
+
+	iframe{
+		margin: 0 auto;
+	}
+
+	</style>
+		<div class="container-fluid"><br>
+			<div class="city"><h2>Weather Application</h2><br>
+				<h3 id="instructions">Set your Weather by dragging the pin to your desired location</h3></div><br>
+				<div id="yourChosenCity"></div><br>
+				<div class="row"></div>	
+			<br>
+
+			<div id="weather-map" style="height: 450px; width: 600px; margin-left: auto; margin-right: auto;"></div><br>
+
+			<script src ="js/moments.js"></script>
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYV7MmvXnEHWXTBYCBoDKZk9c5TWuhKvw"></script>
+
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+
+
+		<script>
+		(function(){
+			'use strict';
+			var map;
+
+			var myLatLng = new google.maps.LatLng(30.297018,-97.734375);
+			var myMapOptions = {
+				zoom: 4,
+				center: myLatLng,
+				mapTypeId: google.maps.MapTypeId.TERRAIN
+			}
+			map = new google.maps.Map($("#weather-map").get(0), myMapOptions);
+
+			var marker = new google.maps.Marker({
+				draggable:true,
+				position: myLatLng,
+				map: map
+			});
+
+			var yourPosition = {
+				lat: 30.297018,
+				lng: -97.734375
+			};
+
+		function showMyWeather(){
+			$.get("http://api.openweathermap.org/data/2.5/forecast/daily", {
+				APPID: "c95371598ada90daabfdfe68e26f082c",
+				lat: yourPosition.lat(),
+				lon: yourPosition.lng(),
+				units: "imperial",
+				cnt: '3'
+				}).done(function(data) {
+					console.log(data);
+					$('.row').html('');
+					$('#yourChosenCity').html('<h3>' + data.city.country + '</h3><h3>' + data.city.name + '</h3>');
+				data.list.forEach(function(day){
+					var stringOfContent = '';
+					stringOfContent += '<div class="col-xs-4">'
+					stringOfContent += '<h3>' + moment(day.dt*1000).format("MMM Do") + '</h3>'
+					stringOfContent += '<h3>' + Math.round(day.temp.max) + '&deg;/ ' + Math.round(day.temp.min) + '&deg;</h3>'
+					stringOfContent += '<img src="http://openweathermap.org/img/w/' + day.weather[0].icon + '.png">' 
+					stringOfContent += '<p> Description: ' + day.weather[0].description + '</p>'
+					stringOfContent += '<p> Humidity: ' + day.humidity + '%</p>'
+					stringOfContent += '<p> Wind: ' + day.speed + ' mph</p>'
+					stringOfContent += '<p> Pressure ' + day.pressure + ' hPa</p>'
+					stringOfContent += '</div>'
+					$('.row').append(stringOfContent);
+				})
+
+			});
+		}
+		marker.addListener('dragend', function(event){
+				yourPosition = event.latLng;
+				console.log('#instructions'); 
+				$('#instructions').html('');
+				showMyWeather();
+				console.log(yourPosition);
+				
+			})
+
+		})();		
+		
+
+		</script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	</body>
+</html>

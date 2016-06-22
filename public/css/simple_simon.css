@@ -1,0 +1,42 @@
+h2{
+	text-align: center;
+}
+.bop-it{
+	margin: auto;
+	width: 150px;
+	height: 150px;
+	border: 2px solid black;
+	float: left;
+
+
+}
+#first_box{
+	background : yellow;
+	opacity: .3;
+	
+
+}
+#second_box{
+	background: blue;
+	opacity: .3;
+
+}
+#third_box{
+	background: red;
+	clear: left;
+	opacity: .3;	
+}
+#fourth_box{
+	background: green;
+	opacity: .3;
+	
+}
+#start_button{
+	clear: left;
+}
+
+$('.bop-it').click(function(){
+			var clickedBox = this.getAttribute('data-value');
+			randomArraySelector.push(clickedBox);
+			console.log(clickedBox);
+			});

@@ -32,11 +32,7 @@ h2{
 	
 }
 #start_button{
-	clear: left;
+	margin-top: 300px;
+	text-align: center;
 }
 
-$('.bop-it').click(function(){
-			var clickedBox = this.getAttribute('data-value');
-			randomArraySelector.push(clickedBox);
-			console.log(clickedBox);
-			});

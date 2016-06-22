@@ -42,40 +42,56 @@
 			var randomArraySelector = [];
 			var clickedArrayOption = [];
 			var randColor;
+			// var clickedBox;
+			var i = 0;
 
 			
-			console.log(colorArray);
+			// console.log(colorArray);
 
 			function generateRandom(){
 				randColor = colorArray[Math.floor(Math.random()* colorArray.length)];
+				return randColor.data('value');
 			}
 
-			$('#start_button').click(function(){
-				generateRandom();
-				randomArraySelector.push(randColor);
+			function firstSequence (){
+				randomArraySelector.push(generateRandom());
 				console.log(randomArraySelector);
-				console.log(randColor);
-				randColor.animate({
-					opacity:1
-				},350, function(){
-					randColor.animate({opacity:.3
-				},350);
-				})			
+				$(randomArraySelector).each(function(index,element) {
+					setTimeout(function(){
+						$('[data-value=' + (element) + ']').animate({
+								'opacity': '1'
+							}, 300).animate({
+								'opacity': '.3'
+							}, 300);
+									
+					}, 600 * (index + .5));
+				});
+			}
+			$('#start_button').click(function(){
+				firstSequence();
 			})
 			$('.bop-it').click(function(){
-			var clickedBox = this.getAttribute('data-value');
-			clickedArrayOption.push(clickedBox);
-			console.log(clickedBox);
-			console.log(clickedArrayOption);
+				var clickedBox = $(this).data('value');
+				clickedArrayOption.push(clickedBox);
+				console.log(clickedBox);
+				if(clickedBox === randomArraySelector[i]){
+					// clickedArrayOption = [];
+					i++;
+					if (randomArraySelector.length == i) {
+						firstSequence();
+						console.log(randomArraySelector);
+						i = 0;
+					}
+					
+				} else{
+					alert('wrong')
+					i = 0;
+					clickedArrayOption = [];
+					randomArraySelector = [];
+				}
 			});	
 
-			// function matchingArrays(){
-			
-			// }	
-
-			// for (var i=0 ; i < randomArraySelector -1; i++){
-			// 	if(clickedBox === randomArraySelector)
-			// }
+		
 		})();		
 		
 

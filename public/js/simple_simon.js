@@ -13,8 +13,8 @@
 			var randColor;
 			var i = 0;
 			var backgroundAudio = new Audio("background_full_loop.mp3")
-			var cantDo = new Audio ("audio/can_do_this.mp3");
-			var ohNo = new Audio("audio/oh_no.mp3");
+			var cantDo = new Audio ("can_do_this.mp3");
+			var ohNo = new Audio("oh_no.mp3");
 
 			function generateRandom(){
 				randColor = colorArray[Math.floor(Math.random()* colorArray.length)];
